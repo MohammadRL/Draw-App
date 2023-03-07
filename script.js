@@ -5,7 +5,7 @@ let shapeArr = ["Circle", "Rectangle"];
 let shapes;
 let rand = Math.floor(Math.random() * shapeArr.length);
 
-console.log(rand);
+// console.log(rand);
 startBtn.onclick = () => {
     startBtn.parentElement.remove();
     drawQuestion();
@@ -29,21 +29,9 @@ function drawQuestion() {
     div.className = "choose-message";
     let h2 = document.createElement("h2");
     let h2Text = document.createTextNode(`Draw ${shapeArr[rand]}`);
-    // let circleImage = document.createElement("img");
-    // circleImage.src = "icons/circle.svg";
-    // let rectImage = document.createElement("img");
-    // rectImage.src = "icons/rectangle.svg";
-    // let triImage = document.createElement("img");
-    // triImage.src = "icons/triangle.svg";
-
-    // div.appendChild(circleImage);
-    // div.appendChild(rectImage);
-    // div.appendChild(triImage);
     h2.appendChild(h2Text);
     div.appendChild(h2);
     welcomeSection.appendChild(div);
-
-
 }
 //canvas
 const canvas = document.querySelector("canvas"),
@@ -173,19 +161,11 @@ clearCanvas.addEventListener("click", () => {
     ctx.clearRect(0, 0, canvas.width, canvas.height); // clearing whole canvas
     setCanvasBackground();
 });
-
-// saveImg.addEventListener("click", () => {
-//     const link = document.createElement("a"); // creating <a> element
-//     link.download = `${Date.now()}.jpg`; // passing current date as link download value
-//     link.href = canvas.toDataURL(); // passing canvasData as link href value
-//     link.click(); // clicking link to download image
-//     // showImage.src = link.href;
-// });
-
+//Mouse Events
 canvas.addEventListener("mousedown", startDraw);
 canvas.addEventListener("mousemove", drawing);
 canvas.addEventListener("mouseup", () => isDrawing = false);
-//Adddd
+//Touch Events
 canvas.addEventListener('touchstart', handleStart);
 canvas.addEventListener('touchend', handleEnd);
 canvas.addEventListener('touchcancel', handleCancel);
@@ -204,7 +184,6 @@ function handleStart(evt) {
 }
 
 function handleMove(evt) {
-    // console.log(evt);
     evt.preventDefault();
     const touches = evt.changedTouches;
     for (let i = 0; i < touches.length; i++) {
@@ -212,13 +191,16 @@ function handleMove(evt) {
         const idx = ongoingTouchIndexById(touches[i].identifier);
         if (idx >= 0) {
             if (selectedTool === "brush" || selectedTool === "eraser") {
+                // if selected tool is eraser then set strokeStyle to white 
+                // to paint white color on to the existing canvas content else set the stroke color to selected color
+                ctx.strokeStyle = selectedTool === "eraser" ? "#fff" : selectedColor;
                 ctx.beginPath();
                 // ctx.moveTo(ongoingTouches[idx].clientX - offsetX, ongoingTouches[idx].clientY - offsetY);
                 ctx.moveTo(ongoingTouches[idx].clientX, ongoingTouches[idx].clientY);
                 // ctx.lineTo(touches[i].clientX - offsetX, touches[i].clientY - offsetY);
                 ctx.lineTo(touches[i].clientX, touches[i].clientY);
                 ctx.lineWidth = brushWidth;
-                ctx.strokeStyle = selectedColor;;
+                // ctx.strokeStyle = selectedColor;;
                 ctx.lineJoin = "round";
                 ctx.closePath();
                 ctx.stroke();
@@ -227,21 +209,7 @@ function handleMove(evt) {
             ongoingTouches.splice(idx, 1, copyTouch(touches[i]));  // swap in the new touch record
         }
     }
-    for (let i = 0; i < ongoingTouches.length; i++) {
-        if (selectedTool === "rectangle") {
-            console.log("hi");
-            ctx.beginPath();
-            // ctx.moveTo(ongoingTouches[idx].clientX, ongoingTouches[idx].clientY, offsetX - ongoingTouches[idx].clientX, offsetY - ongoingTouches[idx].clientY);
-            ctx.strokeRect(ongoingTouches[i].clientX, ongoingTouches[i].clientY, 100, 200);                // // ctx.closePath();
-            ctx.lineWidth = brushWidth;
-            ctx.strokeStyle = selectedColor;;
-            // ctx.lineJoin = "round";
-            // ctx.closePath();
-            ctx.stroke();
 
-
-        }
-    }
 }
 
 function handleEnd(evt) {
@@ -282,33 +250,6 @@ function ongoingTouchIndexById(idToFind) {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// function drawModelss() {
-
-//     for (let i = 1; i < canvas.width; i += 10) {
-//         ctx.strokeRect(i, i, i + 15, i + 35);
-//         saveImg.click();
-//         clearCanvas.click();
-//         ctx.fillRect(i, i, i + 35, i + 15);
-//         saveImg.click();
-//         clearCanvas.click();
-//     }
-// }
-
-// drawModels();
 
 /*Toggle Paint Mobile Menu */
 let burgerIcon = document.querySelector(".burger-icon");
