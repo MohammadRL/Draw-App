@@ -14,9 +14,11 @@
 </head>
 
 <body>
+    <div class="b-overlay"></div>
+    <div class="overlay"></div>
     <!-- Welcome Message -->
     <div class="welcome-message">
-        <div class="overlay"></div>
+
         <div class="intro">
             <h1>welcome to <span>Drawing</span> App </h1>
             <p>This App Is specially produced to learn kids Draw simple shapes like:<br><img src="icons/circle.svg"
@@ -28,7 +30,32 @@
             <button class="start">Start</button>
         </div>
     </div>
+    <!-- Start Collect Info Message -->
 
+    <form action="" class="player-info">
+        <p>
+            We Need Your Name To Save Your Progress On Your Browser
+        </p>
+        <small>If You Don't Want That You Can Skip..</small>
+        <input type="text" placeholder="Enter Your name" id="uname">
+        <label for="uname">*Write Your Name,<span>If you won't click skip.</span></label>
+        <div class="wrap">
+            <input type="submit" value="Submit" class="primary-btn">
+            <button class="primary-btn">Skip</button>
+        </div>
+
+    </form>
+    <!-- End Collect Info Message -->
+    <!-- Start Progress Info -->
+    <div class="progress">
+        <div class="unit">
+            Unit: <span>01</span>
+        </div>
+        <div class="level">
+            Level: <span>01</span>
+        </div>
+    </div>
+    <!-- End Progress Info -->
     <div class="container">
         <div class="burger-icon">
 
@@ -55,6 +82,10 @@
                     <li class="option">
                         <input type="checkbox" id="fill-color">
                         <label for="fill-color">Fill color</label>
+                    </li>
+                    <li class="option" id="fill-after">
+                        <img src="icons/color_fill_format_icon.svg" alt="">
+                        <span>Fill</span>
                     </li>
                 </ul>
             </div>
@@ -91,12 +122,28 @@
                 <button class="predee">Test</button>
             </div>
         </section>
-        <section class="drawing-board">
+        <section class="drawing-board active">
             <canvas></canvas>
         </section>
+        <section class="d-canvases">
+            <canvas id="one"></canvas>
+            <canvas id="two"></canvas>
+            <canvas id="three"></canvas>
+
+        </section>
+        <section class="ud-canvases">
+            <canvas id="four"></canvas>
+            <canvas id="five"></canvas>
+        </section>
+
 
     </div>
     <img id="hi" src="" alt="">
+    <div class="loading">
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
     <script src="script.js"></script>
     <script src="predict.js"></script>
 

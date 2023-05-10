@@ -14,6 +14,18 @@ body {
   justify-content: center;
   min-height: 100vh;
   background: #4A98F7;
+  background-image: url(imgs/pexels-pixmike-998067.jpg);
+  animation: background-change 10s infinite alternate;
+}
+
+.b-overlay {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background-color: rgb(24 13 24 / 94%);
+  animation: color-change 10s infinite linear;
 }
 
 @media (max-width: 767px) {
@@ -24,11 +36,14 @@ body {
 }
 
 .container {
+  position: relative;
   display: flex;
   width: 100%;
   gap: 10px;
   padding: 10px;
   max-width: 1050px;
+  box-shadow: 1px 1px 5px #FFF;
+  z-index: 1;
 }
 
 @media (max-width:767px) {
@@ -38,9 +53,43 @@ body {
   }
 }
 
+/* Start Components */
+.primary-btn {
+  background-color: transparent;
+  color: white;
+  border: 1px solid #fff;
+  padding: 10px 15px;
+  margin-top: 15px;
+  font-size: 20px;
+  cursor: pointer;
+  transition: .3s;
+}
+
+.primary-btn:hover {
+  background-color: rgba(188, 143, 143, 0.473);
+}
+
+/* End Components */
+
+.overlay {
+  display: none;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background-color: rgb(24 13 24 / 94%);
+  z-index: 2;
+}
+
+.overlay.active {
+  display: block;
+}
+
 /* Welcome Message */
 .welcome-message {
-  position: fixed;
+  display: none;
+  position: absolute;
   width: 100%;
   height: 100%;
   top: 0;
@@ -48,13 +97,9 @@ body {
   z-index: 10000;
 }
 
-.welcome-message .overlay {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
-  background-color: rgb(24 13 24 / 94%);
+
+.welcome-message.active {
+  display: block;
 }
 
 .welcome-message .intro {
@@ -102,6 +147,83 @@ body {
   background-color: rgba(188, 143, 143, 0.473);
 }
 
+/* Start Name Message */
+form.player-info {
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  z-index: 3;
+}
+
+form.player-info.active {
+  display: block;
+}
+
+form.player-info :where(p, small) {
+  text-align: center;
+  color: #FFF;
+
+}
+
+form.player-info p {
+  font-size: 26px;
+}
+
+form.player-info small {
+  display: block;
+}
+
+form.player-info input[type="text"] {
+  display: block;
+  margin: 20px auto;
+  padding: 10px;
+  font-family: cursive;
+  outline: none;
+  border: 1px solid #777;
+  border-radius: 20px
+}
+
+form.player-info input[type="text"]::placeholder {
+  transition: .3s;
+  text-align: center;
+}
+
+form.player-info input[type="text"]:focus::placeholder {
+  opacity: 0;
+}
+
+form.player-info input[type="text"]+label {
+  display: none;
+  font-size: 13px;
+  text-align: center;
+  margin-top: -10px;
+  color: #d32626;
+}
+
+form.player-info input[type="text"]+label span {
+  font-size: 10px;
+}
+
+form.player-info input[type="text"]+label.active {
+  display: block;
+}
+
+form.player-info .wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+
+}
+
+form.player-info .wrap :where(button, [type="submit"]) {
+  font-size: 16px;
+}
+
+/* End Name Message */
 /* Choose Message */
 .choose-message {
   color: rgb(255, 255, 255);
@@ -113,6 +235,7 @@ body {
   text-align: center;
   display: flex;
   justify-content: space-evenly;
+  z-index: 4;
 }
 
 .choose-message h2 {
@@ -135,6 +258,33 @@ section {
   border-radius: 7px;
 }
 
+/* Start Progress */
+.progress {
+  position: fixed;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 40px;
+
+}
+
+.progress.active {
+  z-index: 3;
+}
+
+.progress :where(.unit, .level) {
+  background-color: #FFF;
+  padding: 5px 10px;
+  border-radius: 20px;
+  font-family: cursive;
+}
+
+
+/* End Progress */
 /* burger-icon */
 .burger-icon {
   display: none;
@@ -150,7 +300,7 @@ section {
     position: absolute;
     top: 15px;
     left: 15px;
-    z-index: 4;
+    z-index: 10;
   }
 
   .burger-icon span {
@@ -239,6 +389,10 @@ section {
   cursor: pointer;
   align-items: center;
   margin-bottom: 10px;
+}
+
+.row .options .option#fill-after img {
+  width: 18px;
 }
 
 .option:is(:hover, .active) img {
@@ -359,12 +513,16 @@ section {
 .drawing-board {
   flex: 1;
   overflow: hidden;
+  display: none;
 }
 
+.drawing-board.active {
+  display: block;
+}
 
 .drawing-board canvas {
   width: 100%;
-  height: 100%
+  height: 100%;
 }
 
 @media (max-width: 767px) {
@@ -380,7 +538,7 @@ section {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.616);
+  z-index: 3;
 
 }
 
@@ -413,4 +571,122 @@ section {
 
 .prediction-result button:hover {
   background-color: rosybrown;
+}
+
+.d-canvases {
+  display: none;
+  overflow: hidden;
+  width: 100%;
+}
+
+.d-canvases.active {
+  display: flex;
+}
+
+
+.d-canvases canvas {
+  width: calc(100% / 3);
+  /* background-color: #000; */
+  border: 1px solid #1d1919;
+}
+
+.ud-canvases {
+  display: none;
+  flex: 1;
+  flex-direction: column;
+  overflow: hidden;
+  height: 80vh;
+
+}
+
+.ud-canvases.active {
+  display: flex;
+}
+
+.ud-canvases canvas {
+  height: 50%;
+}
+
+.ud-canvases canvas#four {
+  border-bottom: 1px solid #000;
+}
+
+@media (max-width: 767px) {
+
+  .d-canvases,
+  .ud-canvases {
+    height: calc(100vh - 40px);
+  }
+}
+
+.timer {
+  position: absolute;
+  top: 30%;
+  left: 50%;
+  transform: translateX(-50%);
+  color: white;
+}
+
+.loading {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: none;
+  align-items: center;
+  gap: 15px;
+  z-index: 100000;
+}
+
+.loading.active {
+  display: flex;
+}
+
+.loading span {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #ffffff7a;
+  animation: loading 1s infinite alternate linear;
+
+}
+
+
+
+.loading span:nth-child(2) {
+  animation-delay: .5s;
+
+}
+
+.loading span:last-of-type {
+  animation-delay: .7s;
+
+}
+
+@keyframes loading {
+  to {
+    background-color: #FFF;
+  }
+}
+
+@keyframes color-change {
+  from {
+    filter: hue-rotate(0);
+  }
+
+  to {
+    filter: hue-rotate(360deg);
+
+  }
+}
+
+@keyframes background-change {
+  50% {
+    background-image: url(imgs/pexels-jon-bagnato-13371113.jpg);
+  }
+
+  100% {
+    background-image: url(imgs/pexels-magda-ehlers-1279813.jpg);
+
+  }
 }
